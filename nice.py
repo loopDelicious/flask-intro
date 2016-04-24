@@ -16,16 +16,16 @@ AWESOMENESS = [
 def start_here():
     """Home page."""
 
+    print "Hi! This is the home page."
     return """
-    Hi! This is the home page.<br>
-
-    <a href="/hello">Hello Page</a>
+    <a href="/hello">hello page</a>
     """
 
 
 @app.route('/hello')
 def say_hello():
-    """Say hello and prompt for user's name."""
+    """Say hello and prompt for user's name and allows them to select a 
+    compliment."""
 
     return """
     <!doctype html>
@@ -36,24 +36,31 @@ def say_hello():
       <body>
         <h1>Hi There!</h1>
         <form action="/greet">
-          <label>What's your name? <input type="text" name="person"></label>
-          <br><br>
-          Pick a Compliment:
-            <select name="compliment">
-              <option value = "awesome">Awesome</option>
-              <option value = "terrific">Terrific</option>
-              <option value = "fantastic">Fantastic</option>
-              <option value = "neato">Neato</option>
-              <option value = "fantabulous">Fantabulous</option>
-              <option value = "wowza">Wowza</option>
-              <option value = "oh-not-so-meh">Oh-So-Not-Meh</option>
-              <option value = "brilliant">Brilliant</option>
-              <option value = "ducky">Ducky</option>
-              <option value = "coolio">Coolio</option>
-              <option value = "incredible">Incredible</option>
-              <option value = "wonderful">Wonderful</option>
-              <option value = "smashing">Smashing</option>
-              <option value = "lovely">Lovely</option>
+          <br>
+          <label>What's your name? <input type="text" name="person" /></label>
+          <br>
+          Select a compliment. 
+          <select name="compliment"><br>
+            <option value="swell">swell</option>
+            <option value="pretty">pretty</option>
+            <option value="smart">smart</option>
+          </select> 
+          <br>
+          <input type="submit">
+        </form>
+        <br>
+
+        <form action="/diss">
+          <br>
+          <label>What's your name? <input type="text" name="person" /></label>
+          <br>
+          Select an insult. 
+          <select name="insult"><br>
+            <option value="stinky">stinky</option>
+            <option value="ignorant">ignorant</option>
+            <option value="basic">basic</option>
+          </select>
+          <br>
           <input type="submit">
         </form>
       </body>
@@ -67,7 +74,7 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment_choice = request.args.get("compliment", 'funky')
+    compliment = request.args.get("compliment")
 
     return """
     <!doctype html>
@@ -79,7 +86,27 @@ def greet_person():
         Hi %s I think you're %s!
       </body>
     </html>
-    """ % (player, compliment_choice)
+    """ % (player, compliment)
+
+@app.route('/diss')
+def insult_person():
+  """Insult someone"""
+
+  player = request.args.get("person")
+
+  insult = request.args.get("insult")
+
+  return """
+    <!doctype html>
+    <html>
+      <head>
+        <title>A Diss</title>
+      </head>
+      <body>
+        Hi %s I think you're %s!
+      </body>
+    </html>
+    """ % (player, insult)
 
 
 if __name__ == '__main__':
